@@ -139,11 +139,12 @@ end
 
 def calculate_dirs_size
   @all_files.each do |file|
-    @all_dirs.each do |dir|
-      filename = file[:filename]
-      if filename.match(dir)
-        @all_dirs_size[dir] += file[:filesize]
-      end
+    filename = file[:filename]
+    dirs = filename.split("/")[0...-1]
+
+    while dirs.size >= 1
+      @all_dirs_size[dirs.join('/')] += file[:filesize]
+      dirs.pop
     end
   end
 end
