@@ -76,9 +76,6 @@
 
 # Find all of the directories with a total size of at most 100000. What is the sum of the total sizes of those directories?
 
-require 'byebug'
-
-
 @current_dir = []
 @all_dirs = []
 @all_dirs_size = Hash.new(0)
@@ -92,7 +89,6 @@ def change_dir(dir)
   if dir == '/'
     @current_dir = []
   elsif dir == '..'
-    byebug
     @current_dir.pop
   else
     @current_dir << dir
