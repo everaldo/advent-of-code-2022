@@ -105,22 +105,15 @@ def parse_command(line)
   end
 end
 
-def dir_exists?(dir)
-  @all_dirs.any? do |existing_dir|
-    existing_dir == dir
-  end
-end
-
 def parse_ls_output(line)
   match_data = line.match(LS_OUTPUT_REGEX)
   if match_data[:dir]
-    unless dir_exists?(@current_dir + [match_data[:dirname]])
-      if @current_dir.empty?
-        @all_dirs << "/#{match_data[:dirname]}"
-      else
-        @all_dirs << "/#{@current_dir.join("/")}/#{match_data[:dirname]}"
-      end
+    if @current_dir.empty?
+      @all_dirs << "/#{match_data[:dirname]}"
+    else
+      @all_dirs << "/#{@current_dir.join("/")}/#{match_data[:dirname]}"
     end
+    @all_dirs.uniq!
   elsif match_data[:size]
     if @current_dir.empty?
       @all_files << {filename: "/#{match_data[:filename]}", filesize: match_data[:size].to_i }
